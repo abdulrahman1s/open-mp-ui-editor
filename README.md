@@ -229,7 +229,15 @@ After initial repository setup, every passing `main` build deploys the static ed
 
 Semantic version tags (`v0.1.1`, etc.) run the same checks, build both native artifacts, and publish archives, includes, examples, documentation and SHA-256 manifests through GitHub Releases. Version bumps update Cargo.toml/Cargo.lock, editor/package.json/lock, CMake/component version and CHANGELOG.md (package.py reads Cargo.toml) together. Archive ordering and timestamps are deterministic; binary reproducibility also depends on the pinned toolchain/SDK/environment.
 
-The root `pawn.json` declares the include and per-platform release resources for sampctl/Pawndex. With a current sampctl and an open.mp runtime, `sampctl install abdulrahman1s/open-mp-ui-editor` installs the include; resource paths identify the binary as an open.mp component under `components/`. Verify the startup log after restarting. [Pawndex](https://packages.open.mp/packages) harvests public GitHub metadata; its public API is read-only and indexing timing is controlled by the registry operator. The component binary must be installed to `components/` even when the include is installed with sampctl.
+The root `pawn.json` declares the include and per-platform release resources for sampctl/Pawndex. With sampctl 1.16.0 or newer and an open.mp runtime configured in your project, install the component and include together:
+
+```sh
+sampctl install component://abdulrahman1s/open-mp-ui-editor:v0.1.1
+```
+
+For example, the runtime configuration can use `"runtime": { "version": "openmp", "runtime_type": "openmp" }`; the available server version behind this alias is maintained by sampctl. The `component://` prefix is required: a plain package dependency puts the binary in `plugins/`, even with an open.mp runtime. A clean consumer installation was verified to put the released binary in `components/open-mp-ui-editor.so` and make the Pawn include available. Copy your exported JSON into `scriptfiles/ui/` and verify the startup log after restarting.
+
+[Pawndex](https://packages.open.mp/packages) harvests public GitHub metadata; its public API is read-only and indexing timing is controlled by the registry operator. GitHub releases remain directly installable while discovery is pending.
 
 ## Troubleshooting and FAQ
 
