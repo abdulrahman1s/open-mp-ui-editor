@@ -104,6 +104,10 @@ Use the complete [quickstart](pawn/examples/quickstart.pwn) for player class set
 
 Open the [public editor](https://abdulrahman1s.github.io/open-mp-ui-editor/). The initial examples use exact native primitive bounds. Select an element in Layers or on the canvas; change its ID, geometry, text, color and interaction flags in Properties. Drag to move; side/corner handles resize; arrow keys nudge. Ctrl/Cmd+Z undoes. Group related layers with Ctrl/Cmd+G. Resize changes the container; **Scale layer & text** scales its presentation.
 
+The sprite library searches 449 bundled textures and shows both thumbnails and full previews, without an internet fetch for each texture.
+
+![Bundled GTA sprite browser](docs/sprites.png)
+
 Create a new screen with the **+** beside the screen selector. New compact/column layouts retain the original flow-based tools and stylesheet editor. Add buttons with unique IDs in their Interaction properties. Runtime interactions are the element IDs, regardless of the legacy action label shown in flow-layout controls. **No action** disables export of that button's click target.
 
 - **Save** stores editable project JSON, including flow layout and preview samples. Browser drafts also survive refresh when browser storage permits. Download projects to keep a durable backup.
