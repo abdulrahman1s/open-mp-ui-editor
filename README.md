@@ -24,10 +24,12 @@ This evolves the existing Interface studio editor: the React workspace, store, l
 
 | Platform | Artifact | Runtime |
 | --- | --- | --- |
-| Linux x86 (32-bit) | `open-mp-ui-editor-linux-x86.zip` | open.mp 1.5.8.3079 |
-| Windows x86 (32-bit) | `open-mp-ui-editor-windows-x86.zip` | open.mp 1.5.8.3079 |
+| Linux x86 (32-bit) | `open-mp-ui-editor-linux-x86.zip` | open.mp 1.5.8.3079 / 1.6.7.3218 |
+| Windows x86 (32-bit) | `open-mp-ui-editor-windows-x86.zip` | open.mp 1.5.8.3079 / 1.6.7.3218 |
 
-Linux runs the real-server integration suite. Windows builds in CI; an interactive Windows/GTA session is not part of automated verification. The component uses the official stable SDK, pinned by commit, and requires the bundled Pawn and TextDraws components. This is **not** a SA-MP legacy plugin: do not put it in `plugins/` or `pawn.legacy_plugins`. Other open.mp versions are not currently part of the compatibility matrix.
+Linux runs the real-server integration suite. Windows builds in CI; an interactive Windows/GTA session is not part of automated verification. The component uses the official stable SDK, pinned by commit, and requires the bundled Pawn and TextDraws components. Linux release binaries require 32-bit glibc 2.39+ and libstdc++ with GLIBCXX_3.4.21+ (for example Ubuntu 24.04 with its 32-bit runtime libraries). NixOS developers can run through the supplied i686 shell. Older Linux systems need a source build against their own supported sysroot.
+
+This is **not** a SA-MP legacy plugin: do not put it in `plugins/` or `pawn.legacy_plugins`. Other open.mp versions are not currently part of the compatibility matrix.
 
 ## First UI in five minutes
 

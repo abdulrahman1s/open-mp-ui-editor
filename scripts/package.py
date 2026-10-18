@@ -12,6 +12,8 @@ args=parser.parse_args()
 binary=args.binary.resolve()
 if not binary.is_file():
     raise SystemExit('Native component binary not found')
+if b'UITest_Click\0' in binary.read_bytes():
+    raise SystemExit('Refusing to package a test-driver binary')
 output=ROOT/'artifacts';output.mkdir(exist_ok=True)
 name='open-mp-ui-editor-0.1.0-'+args.platform+'.zip'
 files=[(binary,'components/'+binary.name)]

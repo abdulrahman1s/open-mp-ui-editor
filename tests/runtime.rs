@@ -256,3 +256,19 @@ fn resource_budgets_fail_without_disrupting_existing_instances() {
     assert!(r.show(&e, 1, 999, ui).is_err());
     r.clear(&e);
 }
+
+#[cfg(unix)]
+#[test]
+fn canonical_file_loading_accepts_internal_symlinks_and_rejects_escape() {
+    let path = std::env::temp_dir().join(format!("omp-ui-path-test-{}", std::process::id()));
+    let _ = std::fs::remove_dir_all(&path);
+    std::fs::create_dir_all(path.join("ui")).unwrap();
+    std::fs::write(path.join("outside.json"), login()).unwrap();
+    std::fs::write(path.join("ui/real.json"), login()).unwrap();
+    std::os::unix::fs::symlink("../outside.json", path.join("ui/escape.json")).unwrap();
+    std::os::unix::fs::symlink("real.json", path.join("ui/internal.json")).unwrap();
+    let mut r = Runtime::default();
+    assert!(r.load(1, &path.join("ui"), "escape.json").is_err());
+    assert!(r.load(1, &path.join("ui"), "internal.json").is_ok());
+    std::fs::remove_dir_all(path).unwrap();
+}

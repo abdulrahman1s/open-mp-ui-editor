@@ -43,6 +43,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@stable
         with:
+          toolchain: 1.99.1
           components: clippy,rustfmt
       - uses: actions/download-artifact@v8
         with:
@@ -58,8 +59,10 @@ jobs:
       - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@stable
         with:
+          toolchain: 1.99.1
           targets: i686-unknown-linux-gnu
       - uses: DeterminateSystems/nix-installer-action@v23
+      - run: nix flake check ./nix --no-build
       - uses: actions/download-artifact@v8
         with:
           name: browser-exports
@@ -90,6 +93,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@stable
         with:
+          toolchain: 1.99.1
           targets: i686-pc-windows-msvc
       - run: python scripts/build.py --target i686-pc-windows-msvc
       - run: python scripts/package.py windows-x86 build-windows/Release/open-mp-ui-editor.dll

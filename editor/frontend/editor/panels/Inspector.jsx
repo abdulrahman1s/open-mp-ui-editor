@@ -82,7 +82,7 @@ export function Inspector() {
           ) : (
             <>
               {node.type !== "native" && <Geometry node={node} edit={edit} />}
-              {node.type !== "native" &&
+              {display?.type !== "native" &&
                 !isButton(node) &&
                 !Array.isArray(node) && (
                   <Field

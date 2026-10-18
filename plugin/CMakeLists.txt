@@ -29,6 +29,7 @@ if(WIN32)
   target_link_libraries(open-mp-ui-editor PRIVATE ws2_32 userenv bcrypt ntdll advapi32)
 else()
   target_link_libraries(open-mp-ui-editor PRIVATE dl pthread m)
-  target_link_options(open-mp-ui-editor PRIVATE -Wl,--no-undefined)
+  target_link_options(open-mp-ui-editor PRIVATE -Wl,--no-undefined
+    "-Wl,--version-script=${CMAKE_CURRENT_SOURCE_DIR}/exports.map")
 endif()
 install(TARGETS open-mp-ui-editor LIBRARY DESTINATION components RUNTIME DESTINATION components)

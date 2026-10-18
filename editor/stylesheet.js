@@ -112,7 +112,7 @@
   }
   const quote=value=>JSON.stringify(value);
   function stringify(doc){
-    root.UiDocument.validate(doc);const lines=['/* San Andreas Life UI. Edit this file or use Interface studio.',' * Distances use native TextDraw units (640 × 480), not browser pixels.',' * Strings support {{live.values}}; actions remain checked by Rust.',' * ui.json is generated. Preview fixtures live in ui.preview.json. */',''];
+    root.UiDocument.validate(doc);const lines=['/* open.mp UI project source. Edit this file or use the visual editor.',' * Distances use native TextDraw units (640 × 480), not browser pixels.',' * Export runtime JSON to load on the server; fixture values freeze at export.',' * Save project JSON to preserve layout, samples and interaction IDs. */',''];
     const emit=(depth,text)=>lines.push('  '.repeat(depth)+text);
     const value=(key,v)=>key.includes('color')&&typeof v==='string'?v:typeof v==='string'?quote(v):String(v);
     function props(obj,depth,aliases={},exclude=[]){for(const [k,v]of Object.entries(obj)){if(exclude.includes(k)||v===undefined)continue;const name=aliases[k]||k.replaceAll('_','-');emit(depth,name+': '+value(name,v)+';');}}
