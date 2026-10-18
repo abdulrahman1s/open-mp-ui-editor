@@ -81,7 +81,7 @@ export function Inspector() {
             <small>New elements will be added to this group.</small>
           ) : (
             <>
-              <Geometry node={node} edit={edit} />
+              {node.type !== "native" && <Geometry node={node} edit={edit} />}
               {node.type !== "native" &&
                 !isButton(node) &&
                 !Array.isArray(node) && (
@@ -98,7 +98,7 @@ export function Inspector() {
                     }
                   />
                 )}
-              {node.type === "native" ? (
+              {display?.type === "native" ? (
                 <NativeProperties node={node} edit={edit} />
               ) : isButton(node) ? (
                 <ButtonProperties button={node} edit={edit} />

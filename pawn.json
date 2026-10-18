@@ -4,6 +4,37 @@
   "include_path": "pawn/include",
   "entry": "pawn/examples/quickstart.pwn",
   "output": "artifacts/quickstart.amx",
-  "dependencies": ["openmultiplayer/omp-stdlib"],
-  "builds": [{"name": "example", "entry": "pawn/examples/quickstart.pwn"}]
+  "dependencies": [
+    "openmultiplayer/omp-stdlib"
+  ],
+  "builds": [
+    {
+      "name": "example",
+      "entry": "pawn/examples/quickstart.pwn"
+    }
+  ],
+  "resources": [
+    {
+      "name": "^open-mp-ui-editor-[0-9.]+-linux-x86\\.zip$",
+      "platform": "linux",
+      "archive": true,
+      "includes": [
+        "pawn/include"
+      ],
+      "files": {
+        "components/open-mp-ui-editor.so": "components/open-mp-ui-editor.so"
+      }
+    },
+    {
+      "name": "^open-mp-ui-editor-[0-9.]+-windows-x86\\.zip$",
+      "platform": "windows",
+      "archive": true,
+      "includes": [
+        "pawn/include"
+      ],
+      "files": {
+        "components/open-mp-ui-editor.dll": "components/open-mp-ui-editor.dll"
+      }
+    }
+  ]
 }

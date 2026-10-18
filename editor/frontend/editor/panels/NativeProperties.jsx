@@ -1,9 +1,13 @@
 import React from "react";
 import { Field, Pair, Group, ColorField } from "../components/Fields";
 export function NativeProperties({ node, edit }) {
-  const e = node.element;
+  let target = node;
+  while (target.type === "transform" && target.rows.length === 1)
+    target = target.rows[0];
+  const e = target.element;
   const set = (key, value) =>
     edit((n) => {
+      while (n.type === "transform" && n.rows.length === 1) n = n.rows[0];
       n.element[key] = value;
     }, "Change native " + key);
   return (

@@ -7,10 +7,13 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import shutil
 ROOT=Path(__file__).resolve().parents[1]
 NIXPKGS='github:NixOS/nixpkgs/50ab793786d9de88ee30ec4e4c24fb4236fc2674'
 def run(*args,env=None):subprocess.run(args,cwd=ROOT,env=env,check=True)
 def out(attribute):return subprocess.check_output(['nix','eval','--raw',NIXPKGS+'#legacyPackages.x86_64-linux.'+attribute],text=True).strip()
+os.environ['CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER']='/usr/bin/gcc'
+os.environ['CARGO_TARGET_I686_UNKNOWN_LINUX_GNU_LINKER']=shutil.which('gcc')
 run(sys.executable,'scripts/build.py','--target','i686-unknown-linux-gnu')
 run(sys.executable,'scripts/build.py','--target','i686-unknown-linux-gnu','--test-driver')
 for build in ['build-linux','build-test']:

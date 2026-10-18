@@ -10,6 +10,15 @@ import {
   ScaleField,
 } from "../components/Fields";
 export function ScreenProperties({ screen, plan, edit }) {
+  if (screen.native)
+    return (
+      <Group title="Native canvas">
+        <p>
+          640 × 448 native coordinates. Select a layer to edit its position,
+          size, text, styling and interaction ID.
+        </p>
+      </Group>
+    );
   return (
     <>
       <Group title="Content">

@@ -222,7 +222,7 @@ After initial repository setup, every passing `main` build deploys the static ed
 
 Semantic version tags (`v0.1.0`, etc.) run the same checks, build both native artifacts, and publish archives, includes, examples, documentation and SHA-256 manifests through GitHub Releases. Version bumps update Cargo.toml/Cargo.lock, editor/package.json/lock, CMake component version, package.py and CHANGELOG.md together. Archive ordering and timestamps are deterministic; binary reproducibility also depends on the pinned toolchain/SDK/environment.
 
-The root `pawn.json` makes the include package discoverable to sampctl/Pawndex. [Pawndex](https://packages.open.mp/packages) harvests public GitHub metadata; its public API is read-only and indexing timing is controlled by the registry operator. The component binary must be installed to `components/` even when the include is installed with sampctl.
+The root `pawn.json` declares the include and per-platform release resources for sampctl/Pawndex. With a current sampctl and an open.mp runtime, `sampctl install abdulrahman1s/open-mp-ui-editor` installs the include; resource file mappings place the component binary in `components/`. Verify the startup log after restarting. [Pawndex](https://packages.open.mp/packages) harvests public GitHub metadata; its public API is read-only and indexing timing is controlled by the registry operator. The component binary must be installed to `components/` even when the include is installed with sampctl.
 
 ## Troubleshooting and FAQ
 

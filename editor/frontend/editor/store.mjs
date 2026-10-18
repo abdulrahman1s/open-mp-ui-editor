@@ -350,6 +350,35 @@ export function createEditorStore({ document = defaults, storage } = {}) {
       );
     },
     insert(row) {
+      if (
+        value.document.screens[value.screenName].native &&
+        row.type === "sprite"
+      ) {
+        const used = JSON.stringify(value.document);
+        let i = 1;
+        while (used.includes('"sprite' + i + '"')) i++;
+        row = {
+          type: "native",
+          element: {
+            id: "sprite" + i,
+            kind: "sprite",
+            x: 40,
+            y: 40,
+            w: row.width,
+            h: row.height,
+            text: row.texture,
+            color: row.color,
+            font: 1,
+            sx: 0.2,
+            sy: 1,
+            outline: 0,
+            selectable: false,
+            enabled: true,
+            visible: true,
+            model: 0,
+          },
+        };
+      }
       store.edit(
         (screen, c) => {
           if (value.selected && L.state(screen, value.selected).locked)
