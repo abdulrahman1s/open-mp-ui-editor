@@ -1,0 +1,126 @@
+{
+  "format": "open-mp-ui",
+  "version": 1,
+  "name": "ServerMenu",
+  "elements": [
+    {
+      "id": "menu.background",
+      "kind": "rect",
+      "x": 210,
+      "y": 96,
+      "w": 220,
+      "h": 248,
+      "color": "#172D3BE8"
+    },
+    {
+      "id": "menu.title",
+      "kind": "text",
+      "x": 226,
+      "y": 112,
+      "w": 188,
+      "h": 20,
+      "text": "Server menu",
+      "color": "#EDF3F7FF",
+      "font": 1,
+      "sx": 0.2,
+      "sy": 1.1,
+      "outline": 1
+    },
+    {
+      "id": "menu.map",
+      "kind": "rect",
+      "x": 226,
+      "y": 152,
+      "w": 188,
+      "h": 24,
+      "color": "#367DA2FF",
+      "selectable": true
+    },
+    {
+      "id": "menu.map.label",
+      "kind": "text",
+      "x": 233,
+      "y": 157,
+      "w": 176,
+      "h": 14,
+      "text": "Open map",
+      "color": "#EDF3F7FF",
+      "font": 1,
+      "sx": 0.2,
+      "sy": 1.1,
+      "outline": 1
+    },
+    {
+      "id": "menu.settings",
+      "kind": "rect",
+      "x": 226,
+      "y": 190,
+      "w": 188,
+      "h": 24,
+      "color": "#367DA2FF",
+      "selectable": true
+    },
+    {
+      "id": "menu.settings.label",
+      "kind": "text",
+      "x": 233,
+      "y": 195,
+      "w": 176,
+      "h": 14,
+      "text": "Settings",
+      "color": "#EDF3F7FF",
+      "font": 1,
+      "sx": 0.2,
+      "sy": 1.1,
+      "outline": 1
+    },
+    {
+      "id": "menu.help",
+      "kind": "rect",
+      "x": 226,
+      "y": 228,
+      "w": 188,
+      "h": 24,
+      "color": "#367DA2FF",
+      "selectable": true
+    },
+    {
+      "id": "menu.help.label",
+      "kind": "text",
+      "x": 233,
+      "y": 233,
+      "w": 176,
+      "h": 14,
+      "text": "Help",
+      "color": "#EDF3F7FF",
+      "font": 1,
+      "sx": 0.2,
+      "sy": 1.1,
+      "outline": 1
+    },
+    {
+      "id": "menu.close",
+      "kind": "rect",
+      "x": 226,
+      "y": 282,
+      "w": 188,
+      "h": 24,
+      "color": "#367DA2FF",
+      "selectable": true
+    },
+    {
+      "id": "menu.close.label",
+      "kind": "text",
+      "x": 233,
+      "y": 287,
+      "w": 176,
+      "h": 14,
+      "text": "Close",
+      "color": "#EDF3F7FF",
+      "font": 1,
+      "sx": 0.2,
+      "sy": 1.1,
+      "outline": 1
+    }
+  ]
+}

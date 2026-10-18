@@ -1,0 +1,9 @@
+{
+  "user": "abdulrahman1s",
+  "repo": "open-mp-ui-editor",
+  "include_path": "pawn/include",
+  "entry": "pawn/examples/quickstart.pwn",
+  "output": "artifacts/quickstart.amx",
+  "dependencies": ["openmultiplayer/omp-stdlib"],
+  "builds": [{"name": "example", "entry": "pawn/examples/quickstart.pwn"}]
+}

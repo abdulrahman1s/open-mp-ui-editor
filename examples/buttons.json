@@ -1,0 +1,102 @@
+{
+  "format": "open-mp-ui",
+  "version": 1,
+  "name": "ButtonPanel",
+  "elements": [
+    {
+      "id": "panel",
+      "kind": "rect",
+      "x": 100,
+      "y": 170,
+      "w": 440,
+      "h": 104,
+      "color": "#172D3BE8"
+    },
+    {
+      "id": "panel.title",
+      "kind": "text",
+      "x": 116,
+      "y": 184,
+      "w": 400,
+      "h": 20,
+      "text": "Quick actions",
+      "color": "#EDF3F7FF",
+      "font": 1,
+      "sx": 0.2,
+      "sy": 1.1,
+      "outline": 1
+    },
+    {
+      "id": "action_accept",
+      "kind": "rect",
+      "x": 116,
+      "y": 224,
+      "w": 126,
+      "h": 24,
+      "color": "#367DA2FF",
+      "selectable": true
+    },
+    {
+      "id": "action_accept.label",
+      "kind": "text",
+      "x": 123,
+      "y": 229,
+      "w": 114,
+      "h": 14,
+      "text": "Accept",
+      "color": "#EDF3F7FF",
+      "font": 1,
+      "sx": 0.2,
+      "sy": 1.1,
+      "outline": 1
+    },
+    {
+      "id": "action_decline",
+      "kind": "rect",
+      "x": 250,
+      "y": 224,
+      "w": 126,
+      "h": 24,
+      "color": "#367DA2FF",
+      "selectable": true
+    },
+    {
+      "id": "action_decline.label",
+      "kind": "text",
+      "x": 257,
+      "y": 229,
+      "w": 114,
+      "h": 14,
+      "text": "Decline",
+      "color": "#EDF3F7FF",
+      "font": 1,
+      "sx": 0.2,
+      "sy": 1.1,
+      "outline": 1
+    },
+    {
+      "id": "action_close",
+      "kind": "rect",
+      "x": 384,
+      "y": 224,
+      "w": 140,
+      "h": 24,
+      "color": "#367DA2FF",
+      "selectable": true
+    },
+    {
+      "id": "action_close.label",
+      "kind": "text",
+      "x": 391,
+      "y": 229,
+      "w": 128,
+      "h": 14,
+      "text": "Close",
+      "color": "#EDF3F7FF",
+      "font": 1,
+      "sx": 0.2,
+      "sy": 1.1,
+      "outline": 1
+    }
+  ]
+}

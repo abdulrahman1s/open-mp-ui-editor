@@ -1,0 +1,29 @@
+{
+  "name": "open-mp-ui-editor",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --test *.test.cjs",
+    "format:check": "prettier --check frontend shared-export.js public-preview.js runtime.test.cjs build.mjs",
+    "format": "prettier --write frontend shared-export.js public-preview.js runtime.test.cjs build.mjs"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.2.3",
+    "@radix-ui/react-tabs": "^1.1.13",
+    "@radix-ui/react-tooltip": "^1.2.8",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.468.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tailwind-merge": "^3.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.0",
+    "ajv": "^8.20.0",
+    "esbuild": "^0.25.0",
+    "prettier": "3.6.2",
+    "tailwindcss": "^4.1.0"
+  }
+}

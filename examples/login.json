@@ -1,0 +1,106 @@
+{
+  "format": "open-mp-ui",
+  "version": 1,
+  "name": "Login",
+  "elements": [
+    {
+      "id": "panel",
+      "kind": "rect",
+      "x": 180,
+      "y": 110,
+      "w": 280,
+      "h": 202,
+      "color": "#172D3BE8"
+    },
+    {
+      "id": "title",
+      "kind": "text",
+      "x": 196,
+      "y": 128,
+      "w": 240,
+      "h": 20,
+      "text": "Welcome to the server",
+      "color": "#EDF3F7FF",
+      "font": 1,
+      "sx": 0.2,
+      "sy": 1.1,
+      "outline": 1
+    },
+    {
+      "id": "status",
+      "kind": "text",
+      "x": 196,
+      "y": 158,
+      "w": 240,
+      "h": 16,
+      "text": "Choose an action to continue.",
+      "color": "#EDF3F7FF",
+      "font": 1,
+      "sx": 0.2,
+      "sy": 1.1,
+      "outline": 1
+    },
+    {
+      "id": "login_button",
+      "kind": "rect",
+      "x": 196,
+      "y": 193,
+      "w": 116,
+      "h": 24,
+      "color": "#367DA2FF",
+      "selectable": true
+    },
+    {
+      "id": "login_button.label",
+      "kind": "text",
+      "x": 203,
+      "y": 198,
+      "w": 104,
+      "h": 14,
+      "text": "Sign in",
+      "color": "#EDF3F7FF",
+      "font": 1,
+      "sx": 0.2,
+      "sy": 1.1,
+      "outline": 1
+    },
+    {
+      "id": "cancel_button",
+      "kind": "rect",
+      "x": 320,
+      "y": 193,
+      "w": 116,
+      "h": 24,
+      "color": "#367DA2FF",
+      "selectable": true
+    },
+    {
+      "id": "cancel_button.label",
+      "kind": "text",
+      "x": 327,
+      "y": 198,
+      "w": 104,
+      "h": 14,
+      "text": "Cancel",
+      "color": "#EDF3F7FF",
+      "font": 1,
+      "sx": 0.2,
+      "sy": 1.1,
+      "outline": 1
+    },
+    {
+      "id": "hint",
+      "kind": "text",
+      "x": 196,
+      "y": 238,
+      "w": 242,
+      "h": 16,
+      "text": "Password entry uses a Pawn dialog.",
+      "color": "#EDF3F7FF",
+      "font": 1,
+      "sx": 0.2,
+      "sy": 1.1,
+      "outline": 1
+    }
+  ]
+}

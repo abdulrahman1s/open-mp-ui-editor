@@ -1,0 +1,134 @@
+name: CI, Pages and releases
+on:
+  pull_request:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  editor:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: editor/package-lock.json
+      - run: npm ci --ignore-scripts
+        working-directory: editor
+      - run: npm run format:check && npm test && npm run build && npm audit --audit-level=moderate
+        working-directory: editor
+      - run: node scripts/export-examples.cjs && python3 scripts/site.py
+      - uses: actions/upload-artifact@v7
+        with:
+          name: browser-exports
+          path: artifacts/exported
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+
+  runtime:
+    needs: editor
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy,rustfmt
+      - uses: actions/download-artifact@v8
+        with:
+          name: browser-exports
+          path: artifacts/exported
+      - run: cargo fmt --all --check && cargo clippy --all-targets --locked -- -D warnings && cargo test --locked
+      - run: python3 -m py_compile scripts/*.py
+
+  linux:
+    needs: editor
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: i686-unknown-linux-gnu
+      - uses: DeterminateSystems/nix-installer-action@v23
+      - uses: actions/download-artifact@v8
+        with:
+          name: browser-exports
+          path: artifacts/exported
+      - name: Build production and isolated SDK test driver; run real open.mp and package
+        run: >-
+          nix shell
+          github:NixOS/nixpkgs/50ab793786d9de88ee30ec4e4c24fb4236fc2674#pkgsi686Linux.gcc
+          github:NixOS/nixpkgs/50ab793786d9de88ee30ec4e4c24fb4236fc2674#cmake
+          github:NixOS/nixpkgs/50ab793786d9de88ee30ec4e4c24fb4236fc2674#ninja
+          github:NixOS/nixpkgs/50ab793786d9de88ee30ec4e4c24fb4236fc2674#patchelf
+          --command python3 scripts/ci-linux.py
+      - uses: actions/upload-artifact@v7
+        with:
+          name: linux-x86
+          path: |
+            artifacts/*.zip
+            artifacts/*.sha256
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: linux-integration-log
+          path: artifacts/integration.log
+
+  windows:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: i686-pc-windows-msvc
+      - run: python scripts/build.py --target i686-pc-windows-msvc
+      - run: python scripts/package.py windows-x86 build-windows/Release/open-mp-ui-editor.dll
+      - uses: actions/upload-artifact@v7
+        with:
+          name: windows-x86
+          path: |
+            artifacts/*.zip
+            artifacts/*.sha256
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: [editor, runtime, linux, windows]
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v6
+      - uses: actions/deploy-pages@v5
+        id: deployment
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [editor, runtime, linux, windows]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: '*-x86'
+          path: release
+          merge-multiple: true
+      - name: Publish tested artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" release/* --verify-tag --title "$GITHUB_REF_NAME" --notes-file CHANGELOG.md

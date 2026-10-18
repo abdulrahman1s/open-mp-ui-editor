@@ -1,0 +1,44 @@
+{
+  "format": "open-mp-ui",
+  "version": 1,
+  "name": "PlayerHUD",
+  "elements": [
+    {
+      "id": "hud.background",
+      "kind": "rect",
+      "x": 420,
+      "y": 26,
+      "w": 190,
+      "h": 70,
+      "color": "#172D3BE8"
+    },
+    {
+      "id": "player_name",
+      "kind": "text",
+      "x": 432,
+      "y": 36,
+      "w": 166,
+      "h": 16,
+      "text": "Player_Name",
+      "color": "#EDF3F7FF",
+      "font": 1,
+      "sx": 0.2,
+      "sy": 1.1,
+      "outline": 1
+    },
+    {
+      "id": "cash",
+      "kind": "text",
+      "x": 432,
+      "y": 59,
+      "w": 166,
+      "h": 16,
+      "text": "$12,500",
+      "color": "#EDF3F7FF",
+      "font": 1,
+      "sx": 0.2,
+      "sy": 1.1,
+      "outline": 1
+    }
+  ]
+}

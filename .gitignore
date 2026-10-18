@@ -1,0 +1,10 @@
+/target/
+/build*/
+/editor/node_modules/
+/editor/dist/
+/site/
+/artifacts/
+*.so
+*.dll
+*.amx
+__pycache__/

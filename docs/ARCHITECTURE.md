@@ -1,0 +1,11 @@
+# Architecture and assessment
+
+The source editor was inspected in tools/ui-editor: React owns workspace, panels, immutable store and file hooks; model.js produces a native shape plan; stylesheet.js parses a deliberately restricted CSS language; WebGL previews the plan. Editing, grouping, gestures, history, source round trips and projection already have Node tests. The previous local Python endpoint stages SAL assets and is intentionally absent from this standalone product.
+
+We retain the editor modules and their regression fixtures. A small export module crosses the seam between the existing shape planner and the native runtime. It flattens layout into explicit primitives, retaining interactive IDs, geometry and colors. Runtime files never execute CSS or browser code. Reimporting a runtime export reconstructs editable positioned primitives; source project JSON preserves richer flow layout and history is kept in browser storage.
+
+All server behaviour is Rust in root src/. The plugin directory contains only the open.mp C++ SDK adapter: native parameter conversion, named textdraw operations and callback transport. This is a supported open.mp component, placed in components/, not a legacy AMX plugin. Definitions belong to their loading Pawn VM; player instances belong to (owner, player, monotonically allocated instance). No callback runs while Rust state is borrowed. Definitions are shared immutable inputs; every player gets independent player textdraws and overrides.
+
+The inherited preview embedded local GTA font atlases, sprite bitmaps and HUD captures. These are excluded from distribution. The public preview uses browser fonts and generated HUD guides; native font/sprite names are preserved. Font metrics, model thumbnails and actual GTA rendering require client verification.
+
+Validation occurs at export, import and runtime load. The versioned schema is strict. Handles are monotonic and VM ownership is checked. Resource allocations roll back partial failure; disconnect, unload and component teardown release owned resources. Limits bound files, definitions, primitives, players and instances. Files are confined to scriptfiles/ui with canonical-path checks. No database or gameplay policy is part of this project.

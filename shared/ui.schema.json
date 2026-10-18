@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://abdulrahman1s.github.io/open-mp-ui-editor/ui.schema.json",
+  "title": "open.mp UI definition v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "version",
+    "name",
+    "elements"
+  ],
+  "properties": {
+    "format": {
+      "const": "open-mp-ui"
+    },
+    "version": {
+      "const": 1
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,63}$"
+    },
+    "elements": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 128,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "kind",
+          "x",
+          "y",
+          "w",
+          "h"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,63}$"
+          },
+          "kind": {
+            "enum": [
+              "text",
+              "rect",
+              "sprite",
+              "model"
+            ]
+          },
+          "x": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 640
+          },
+          "y": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 448
+          },
+          "w": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 640
+          },
+          "h": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 448
+          },
+          "text": {
+            "type": "string",
+            "maxLength": 512,
+            "pattern": "^[ -~]*$",
+            "default": ""
+          },
+          "color": {
+            "type": "string",
+            "pattern": "^#[A-Fa-f0-9]{8}$",
+            "default": "#FFFFFFFF"
+          },
+          "font": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3,
+            "default": 1
+          },
+          "sx": {
+            "type": "number",
+            "minimum": 0.01,
+            "maximum": 4,
+            "default": 0.2
+          },
+          "sy": {
+            "type": "number",
+            "minimum": 0.01,
+            "maximum": 10,
+            "default": 1
+          },
+          "outline": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8,
+            "default": 0
+          },
+          "model": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535,
+            "default": 0
+          },
+          "enabled": {
+            "type": "boolean",
+            "default": true
+          },
+          "visible": {
+            "type": "boolean",
+            "default": true
+          },
+          "selectable": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "text"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "text"
+              ],
+              "properties": {
+                "text": {
+                  "minLength": 1,
+                  "pattern": "^[^~%{}]+$"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "sprite"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "text"
+              ],
+              "properties": {
+                "text": {
+                  "maxLength": 96,
+                  "pattern": "^[A-Za-z0-9_]+:[A-Za-z0-9_]+$"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "model"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "model": {
+                  "maximum": 20000
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
