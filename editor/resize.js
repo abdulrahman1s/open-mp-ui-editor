@@ -25,7 +25,16 @@
       if (ancestor?.type === 'columns' && ['left','right'].includes(path[i])) { const left=ancestor.left_width||(availableWidth-24)/2;availableWidth=path[i]==='left'?left:availableWidth-left-24; }
     }
     if (target.type === 'transform' && target.rows.length === 1) { wrapper = target; target = target.rows[0]; }
-    if(target.type==='native') {const e=target.element,ox=e.x,oy=e.y;return {axes:'xy',apply({width=hit.w,height=hit.h,west=false,north=false}) {e.w=Math.max(1,width/sx);e.h=Math.max(1,height/sy);if(west)e.x=ox+(hit.w-e.w*sx)/sx;if(north)e.y=oy+(hit.h-e.h*sy)/sy;}};}
+    if(target.type==='native') {
+      const e=target.element,ox=e.x,oy=e.y,right=e.x+e.w,bottom=e.y+e.h;
+      return {axes:'xy',apply({width=hit.w,height=hit.h,west=false,north=false}) {
+        // Keep the opposite edge fixed and stay inside the native export bounds.
+        e.w=clamp(width/sx,Math.min(1,right-ox),west?right:640-ox);
+        e.h=clamp(height/sy,Math.min(1,bottom-oy),north?bottom:448-oy);
+        e.x=west?right-e.w:ox;
+        e.y=north?bottom-e.h:oy;
+      }};
+    }
     const button = Object.hasOwn(target, 'action');
     const kind = button ? 'button' : target.type;
     if(kind==='buttons'&&wrapper)availableWidth=parentWidth;

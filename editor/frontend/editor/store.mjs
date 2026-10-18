@@ -134,7 +134,15 @@ export function createEditorStore({ document = defaults, storage } = {}) {
         document: working,
         context: M.clone(startContext),
         preview() {
-          if (!closed) publish({ document: M.clone(working) });
+          if (closed) return;
+          try {
+            // Source and inspector consumers require valid documents, even
+            // during a drag. Keep the last valid frame if a limit is exceeded.
+            M.validate(working);
+            publish({ document: M.clone(working) });
+          } catch (error) {
+            if (value.message !== error.message) store.notify(error.message);
+          }
         },
         finish(label) {
           if (closed) return;

@@ -13,6 +13,74 @@ const schema = JSON.parse(
   fs.readFileSync(path.join(__dirname, "../shared/ui.schema.json")),
 );
 const validate = new Ajv({ strict: false }).compile(schema);
+require("./layers.js");
+require("./history.js");
+require("./resize.js");
+require("./guides.js");
+const storeModules = Promise.all([
+  import("./frontend/editor/store.mjs"),
+  import("./frontend/editor/gesture.mjs"),
+]);
+
+test("native resize gestures stop at every game edge, remain exportable and undo cleanly", async () => {
+  const [{ createEditorStore }, { beginGesture }] = await storeModules;
+  for (const [handle, x, y, expected] of [
+    ["se", 2000, 2000, [20, 30, 620, 418]],
+    ["nw", -2000, -2000, [0, 0, 100, 54]],
+    ["e", 2000, 0, [20, 30, 620, 24]],
+    ["s", 0, 2000, [20, 30, 80, 418]],
+  ]) {
+    const document = E.importDefinition({
+      format: "open-mp-ui",
+      version: 1,
+      name: "Test",
+      elements: [{ id: "box", kind: "rect", x: 20, y: 30, w: 80, h: 24 }],
+    });
+    const store = createEditorStore({ document, storage: null });
+    store.select([0]);
+    const before = store.getSnapshot().committedValue;
+    const drag = beginGesture(store, {
+      plan: M.plan(document.screens.Test),
+      view: { resize: "resize", projection: "448", smart: false, grid: false },
+      point: { x: 0, y: 0 },
+      handle,
+      viewportWidth: 1280,
+    });
+    drag.move({ x, y });
+    const preview = store.getSnapshot().document;
+    assert.doesNotThrow(() => S.stringify(preview));
+    const e = E.exportScreen(preview, "Test").definition.elements[0];
+    assert.deepEqual([e.x, e.y, e.w, e.h], expected);
+    drag.finish();
+    assert.equal(store.timeline.entries.length, 2);
+    store.restore("undo");
+    assert.equal(store.getSnapshot().committedValue, before);
+    store.persist();
+  }
+});
+
+test("invalid gesture frames never reach subscribers and the gesture can recover", async () => {
+  const [{ createEditorStore }] = await storeModules;
+  const store = createEditorStore({ storage: null });
+  const before = store.getSnapshot().committedValue;
+  const unsubscribe = store.subscribe(() => {
+    assert.doesNotThrow(() => S.stringify(store.getSnapshot().document));
+  });
+  const drag = store.gesture();
+  drag.document.screens.Login.rows[0].element.w = 5000;
+  drag.preview();
+  assert.equal(JSON.stringify(store.getSnapshot().document), before);
+  assert.match(store.getSnapshot().message, /bounds/);
+  drag.document.screens.Login.rows[0].element.w = 300;
+  drag.preview();
+  drag.finish("Resize layer");
+  assert.equal(
+    store.getSnapshot().document.screens.Login.rows[0].element.w,
+    300,
+  );
+  unsubscribe();
+  store.persist();
+});
 test("every public example round trips through import, CSS, planner and export with native properties intact", () => {
   for (const file of fs.readdirSync(path.join(__dirname, "../examples"))) {
     if (!file.endsWith(".json")) continue;
