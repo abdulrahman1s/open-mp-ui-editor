@@ -21,9 +21,9 @@
       "includes": [
         "pawn/include"
       ],
-      "files": {
-        "components/open-mp-ui-editor.so": "components/open-mp-ui-editor.so"
-      }
+      "plugins": [
+        "components/open-mp-ui-editor.so"
+      ]
     },
     {
       "name": "^open-mp-ui-editor-[0-9.]+-windows-x86\\.zip$",
@@ -32,9 +32,9 @@
       "includes": [
         "pawn/include"
       ],
-      "files": {
-        "components/open-mp-ui-editor.dll": "components/open-mp-ui-editor.dll"
-      }
+      "plugins": [
+        "components/open-mp-ui-editor.dll"
+      ]
     }
   ]
 }

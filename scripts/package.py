@@ -15,7 +15,7 @@ if not binary.is_file():
 output=ROOT/'artifacts';output.mkdir(exist_ok=True)
 name='open-mp-ui-editor-0.1.0-'+args.platform+'.zip'
 files=[(binary,'components/'+binary.name)]
-for directory in ['pawn/include','pawn/examples','examples','shared','docs']:
+for directory in ['pawn/include','pawn/examples','examples','shared','docs','LICENSES']:
     files += [(p,str(p.relative_to(ROOT))) for p in (ROOT/directory).rglob('*') if p.is_file()]
 files += [(ROOT/n,n) for n in ['README.md','LICENSE','THIRD_PARTY_NOTICES.md','CHANGELOG.md']]
 with zipfile.ZipFile(output/name,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as archive:

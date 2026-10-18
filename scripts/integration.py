@@ -19,6 +19,7 @@ import urllib.request
 ROOT=Path(__file__).resolve().parents[1]
 VERSION='v1.5.8.3079'
 parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--version',default=VERSION,choices=['v1.5.8.3079','v1.6.7.3218'])
 parser.add_argument('--server',type=Path,help='Existing unmodified open.mp distribution (read-only)')
 parser.add_argument('--plugin',type=Path,default=ROOT/'build-test/open-mp-ui-editor.so')
 parser.add_argument('--includes',type=Path,help='Optional matching omp-stdlib include directory')
@@ -32,7 +33,7 @@ with tempfile.TemporaryDirectory(prefix='open-mp-ui-integration-') as temporary:
     root=Path(temporary)
     distribution=args.server.resolve() if args.server else root/'distribution/Server'
     if not args.server:
-        url=f'https://github.com/openmultiplayer/open.mp/releases/download/{VERSION}/open.mp-linux-x86.tar.gz'
+        url=f'https://github.com/openmultiplayer/open.mp/releases/download/{args.version}/open.mp-linux-x86.tar.gz'
         request=urllib.request.Request(url,headers={'User-Agent':'open-mp-ui-editor-tests'})
         archive=root/'server.tar.gz'
         with urllib.request.urlopen(request,timeout=60) as response,archive.open('wb') as out:

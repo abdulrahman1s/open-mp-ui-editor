@@ -82,7 +82,7 @@ jobs:
         if: always()
         with:
           name: linux-integration-log
-          path: artifacts/integration.log
+          path: artifacts/integration*.log
 
   windows:
     runs-on: windows-2022

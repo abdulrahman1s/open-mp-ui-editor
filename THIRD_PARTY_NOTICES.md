@@ -8,3 +8,5 @@
 - The open.mp server distribution used for integration tests is downloaded only for isolated verification and is not bundled in project releases. open.mp is licensed separately under MPL-2.0.
 
 No claim of ownership is made over GTA, Rockstar trademarks, game texture names or open.mp. This project does not ship game files.
+
+Full runtime dependency license notices are in `LICENSES/` and included in binary archives.
