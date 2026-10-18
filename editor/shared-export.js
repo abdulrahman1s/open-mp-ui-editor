@@ -128,7 +128,7 @@
         "Current screen/state exported. Live values are frozen to samples; update text from Pawn.",
       );
     warnings.push(
-      "Browser fonts approximate GTA. Verify text, sprites and model previews in-game.",
+      "Preview uses GTA fonts and cached sprites. Verify final rendering and 3D models in-game.",
     );
     const elements = [],
       count = new Map();

@@ -135,8 +135,8 @@ export function Workspace() {
             </details>
           </div>
           <p className="parity-note">
-            Browser fonts approximate native GTA fonts. Sprite and model
-            previews need a game client. Export the current screen and state;
+            GTA font atlases and native sprites. Verify final rendering and 3D
+            models in the game client. Export the current screen and state;
             live-value samples become static text.
           </p>
           <Source />

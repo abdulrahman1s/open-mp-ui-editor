@@ -6,4 +6,4 @@ Keep server behaviour in root `src/` Rust modules; all Rust structs/enums live i
 
 Run the checks in README before sending a pull request. Changes to native types need both x86 builds and the isolated integration suite. Changes to the export contract need browser/Rust interoperability tests and documentation; preserve version-1 defaults or introduce a new version for breaking changes. Never run test injection against live state. Never distribute the test-driver binary.
 
-Use concise commits describing observable behaviour. Document rendering limits honestly. Do not commit game textures/font atlases, credentials, databases, node_modules, target directories or downloaded server distributions. Contributions are under the project's MIT license; retain third-party notices.
+Use concise commits describing observable behaviour. Document rendering limits honestly. Preserve the bundled preview font/sprite/HUD assets. Do not commit credentials, databases, node_modules, target directories or downloaded server distributions. Contributions are under the project's MIT license; retain third-party notices.

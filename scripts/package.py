@@ -4,6 +4,7 @@ import argparse
 import hashlib
 from pathlib import Path
 import zipfile
+import tomllib
 ROOT = Path(__file__).resolve().parents[1]
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('platform',choices=['linux-x86','windows-x86'])
@@ -15,7 +16,8 @@ if not binary.is_file():
 if b'UITest_Click\0' in binary.read_bytes():
     raise SystemExit('Refusing to package a test-driver binary')
 output=ROOT/'artifacts';output.mkdir(exist_ok=True)
-name='open-mp-ui-editor-0.1.0-'+args.platform+'.zip'
+version=tomllib.loads((ROOT/'Cargo.toml').read_text())['package']['version']
+name='open-mp-ui-editor-'+version+'-'+args.platform+'.zip'
 files=[(binary,'components/'+binary.name)]
 for directory in ['pawn/include','pawn/examples','examples','shared','docs','LICENSES']:
     files += [(p,str(p.relative_to(ROOT))) for p in (ROOT/directory).rglob('*') if p.is_file()]

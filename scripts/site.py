@@ -8,10 +8,11 @@ if site.exists():
     shutil.rmtree(site)
 site.mkdir()
 for name in ['index.html', 'editor.css', 'history.js', 'guides.js', 'resize.js', 'layers.js',
-             'sprites.js', 'defaults.js', 'model.js', 'stylesheet.js', 'actions.js', 'states.js',
+             'game-fonts.js', 'webgl.js', 'sprites.js', 'defaults.js', 'model.js', 'stylesheet.js', 'actions.js', 'states.js',
              'variables.js', 'text-variables.js', 'canvas-text.js', 'public-preview.js', 'shared-export.js']:
     shutil.copy2(ROOT/'editor'/name, site/name)
 shutil.copytree(ROOT/'editor/dist',site/'dist')
+shutil.copytree(ROOT/'editor/textures',site/'textures')
 shutil.copy2(ROOT/'shared/ui.schema.json', site/'ui.schema.json')
 shutil.copytree(ROOT/'examples',site/'examples')
 (site/'.nojekyll').touch()

@@ -18,24 +18,16 @@ export function GameHud() {
         {view.hud &&
           hudLayout(frame.width, frame.height, view.hudMode).map(
             ({ name, image, x, y, w, h }) => (
-              <g key={name} opacity="0.7">
-                <rect
-                  x={x}
-                  y={y}
-                  width={w}
-                  height={h}
-                  fill={name === "health" ? "#a52632" : "#405966"}
-                  stroke="#d2dbe0"
-                />
-                <text
-                  x={x + 5}
-                  y={y + h / 2}
-                  fontSize={Math.max(8, h / 4)}
-                  fill="white"
-                >
-                  {name}
-                </text>
-              </g>
+              <image
+                key={name}
+                data-hud={name}
+                href={image}
+                x={x}
+                y={y}
+                width={w}
+                height={h}
+                preserveAspectRatio="none"
+              />
             ),
           )}
       </svg>

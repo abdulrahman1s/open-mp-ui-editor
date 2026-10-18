@@ -2,7 +2,7 @@ const { test } = require("node:test");
 const assert = require("node:assert/strict");
 require("./tests/fixtures/actions.js");
 require("./tests/fixtures/defaults.js");
-globalThis.GAME_FONTS = {metrics:[Array(208).fill(16),Array(208).fill(16)],textures:{}};
+require("./game-fonts.js");
 require("./webgl.js");
 const viewport = import("./frontend/editor/viewport.mjs");
 

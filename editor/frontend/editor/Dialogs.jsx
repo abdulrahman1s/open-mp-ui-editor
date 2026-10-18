@@ -180,7 +180,7 @@ export function SpriteBrowser({ close }) {
                 title={name}
                 onClick={() => setChosen(name)}
               >
-                <span aria-hidden="true">◇</span>
+                <img src={sprites[name].image} alt="" loading="lazy" />
                 <span>{name.split(":")[1]}</span>
               </button>
             ))}
@@ -191,14 +191,14 @@ export function SpriteBrowser({ close }) {
         </div>
         <aside className="sprite-detail">
           <div className="sprite-large">
-            {chosen && <span>Native sprite preview requires GTA</span>}
+            {chosen && <img src={sprites[chosen].image} alt={chosen} />}
           </div>
           <h3>{chosen || "Choose a sprite"}</h3>
           <p>
             {chosen &&
               (sprites[chosen].uncached
-                ? "Preview available in the game client"
-                : "Native primitive")}
+                ? "Preview needs an internet connection"
+                : "Cached for offline use")}
           </p>
           <Pair>
             <Field

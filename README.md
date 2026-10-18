@@ -6,11 +6,12 @@ Design native open.mp interfaces in your browser, export JSON, and handle button
 
 ![Editor workspace](docs/editor.png)
 
-Version **0.1.0** is an initial release. Automated tests cover the editor, format contract, runtime lifecycle and real Linux i686 open.mp SDK/Pawn integration. Browser fonts are approximate; final appearance and controls must be checked in a GTA client before deploying your UI.
+Version **0.1.1** is an initial release. Automated tests cover the editor, format contract, runtime lifecycle and real Linux i686 open.mp SDK/Pawn integration. The preview uses the original GTA font atlases, glyph metrics, cached sprites and HUD reference assets. Final appearance and controls must still be checked in a GTA client before deploying your UI.
 
 ## Features
 
-- Visual layers, positioning, resizing, colors, native font settings, sprites and model previews.
+- Visual layers, positioning, resizing, colors, native font settings, sprite library and model preview elements.
+- Original GTA font atlases/metrics, cached native sprite previews and HUD reference assets in the public editor.
 - Undo/redo, grouping, locking, snapping, zoom, screenshots and transparent PNG previews.
 - Local browser drafts, editable project files, CSS-style source, and runtime JSON import/export.
 - Unique element IDs, native selectable textdraws and `OnUIClick` / `OnUICancel` callbacks.
@@ -155,7 +156,7 @@ This uses [native player textdraws](https://open.mp/docs/scripting/resources/tex
 - Coordinates use the client's **640 × 448** projection, independent of physical display resolution. Legacy flow layout uses a 480-unit design extent; runtime export additionally requires every primitive to fit the actual 448-unit projection.
 - Text is single-line printable ASCII, up to 512 bytes. Runtime text cannot contain `~`, `%`, `{` or `}`. Multiple lines export as separate primitives. Font sizes and bounding boxes do not guarantee text fits; check captions in the client. There is no arbitrary Unicode/browser font support.
 - Native rectangles have no rounded corners, gradients, blur or CSS effects. Borders are multiple primitives. No HTML, embedded browser, native text input, scrolling container or runtime animation engine is provided. Use open.mp dialogs for input and Pawn updates for state changes.
-- Browser font preview is approximate. No extracted GTA font atlases, texture bitmaps or HUD captures are distributed. Sprite catalogue names are retained; the browser displays labeled placeholders. Model previews are placeholders too. The game resolves installed textures/models; unknown names cannot be verified headlessly.
+- The WebGL preview includes the existing GTA font atlases and proportional glyph metrics, cached sprite thumbnails/full previews, and HUD reference captures. These are included in the public editor for faithful design work and offline use. 3D model previews still require the game client; client texture packs, font/language modifications, sampling and aspect ratios can affect final appearance.
 - Native selection supplies hover tint and click/cancel events. It does **not** expose general hover-enter/leave or pointer-move callbacks. Selection is global per player: coordinate with other textdraw/dialog systems, and select the instance currently accepting interaction.
 - The server shares immutable definitions, but each visible/hidden instance uses player textdraws. Limits: 256 definitions server-wide, 128 primitives/definition, 8 instances/player, 256 owned primitives/player, 256 KiB/file. Other scripts share the engine's 256-player-textdraw pool; allocation failure rolls back the new instance. Destroy unused instances; hiding retains its budget.
 - Updates skip identical values and touch only the changed primitive. Style/bounds changes restream that primitive. No per-tick full-layout rebuild occurs.
@@ -222,13 +223,13 @@ Pull requests and pushes run formatting, editor/schema tests, host Rust tests, w
 
 After initial repository setup, every passing `main` build deploys the static editor through official GitHub Pages actions. Repository **Settings → Pages → Source** must be **GitHub Actions**. Relative assets work at `/open-mp-ui-editor/` and custom base paths. No backend or secrets are needed for editing.
 
-Semantic version tags (`v0.1.0`, etc.) run the same checks, build both native artifacts, and publish archives, includes, examples, documentation and SHA-256 manifests through GitHub Releases. Version bumps update Cargo.toml/Cargo.lock, editor/package.json/lock, CMake component version, package.py and CHANGELOG.md together. Archive ordering and timestamps are deterministic; binary reproducibility also depends on the pinned toolchain/SDK/environment.
+Semantic version tags (`v0.1.1`, etc.) run the same checks, build both native artifacts, and publish archives, includes, examples, documentation and SHA-256 manifests through GitHub Releases. Version bumps update Cargo.toml/Cargo.lock, editor/package.json/lock, CMake/component version and CHANGELOG.md (package.py reads Cargo.toml) together. Archive ordering and timestamps are deterministic; binary reproducibility also depends on the pinned toolchain/SDK/environment.
 
 The root `pawn.json` declares the include and per-platform release resources for sampctl/Pawndex. With a current sampctl and an open.mp runtime, `sampctl install abdulrahman1s/open-mp-ui-editor` installs the include; resource paths identify the binary as an open.mp component under `components/`. Verify the startup log after restarting. [Pawndex](https://packages.open.mp/packages) harvests public GitHub metadata; its public API is read-only and indexing timing is controlled by the registry operator. The component binary must be installed to `components/` even when the include is installed with sampctl.
 
 ## Troubleshooting and FAQ
 
-**The server reports unknown UI natives.** Put the matching 32-bit binary in `components/`, retain Pawn/TextDraws, restart, and check for `[open-mp-ui] 0.1.0 ready`. A component in `plugins/` will not work.
+**The server reports unknown UI natives.** Put the matching 32-bit binary in `components/`, retain Pawn/TextDraws, restart, and check for `[open-mp-ui] 0.1.1 ready`. A component in `plugins/` will not work.
 
 **UI_Load returns zero.** Call `UI_GetLastError`. Filenames are relative to `scriptfiles/ui/`, case-sensitive on Linux, and must end in `.json`. Project JSON/CSS is not a runtime file. Re-export with **Export runtime JSON**. Absolute paths, traversal and escaping symlinks are rejected.
 
@@ -236,7 +237,7 @@ The root `pawn.json` declares the include and per-platform release resources for
 
 **I hit the resource limit.** Destroy old instances before repeatedly calling `UI_Show`; use `UI_ShowInstance` for an already created instance. Hiding retains resources. Button captions, fills and borders each consume primitives.
 
-**My text differs from the preview.** Public preview uses browser fonts and cannot reproduce GTA glyph metrics. Adjust native sx/sy and bounds, then compare in a real client. Sprites/models render in-game from native names, not uploaded browser images.
+**My text differs from the preview.** The preview uses the supplied GTA atlases/metrics and cached sprites, but it does not execute the GTA renderer. Adjust native sx/sy and bounds, compare the target resolution with a client screenshot, and account for client font or texture modifications. 3D model previews need a game client.
 
 **Can I use a shared HUD?** Load one definition and show it for each player; updates affect only that player's instance. Native global textdraw pooling is not implemented in this release. Never select a passive HUD unless it needs interaction.
 
@@ -244,4 +245,4 @@ The root `pawn.json` declares the include and per-platform release resources for
 
 ## Contributing and license
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). MIT for project code; [third-party notices](THIRD_PARTY_NOTICES.md) identify retained licenses and SDK/header dependencies. This project is community software and is not affiliated with Rockstar Games. Game assets are not included.
+See [CONTRIBUTING.md](CONTRIBUTING.md). MIT for project code; [third-party notices](THIRD_PARTY_NOTICES.md) identify retained licenses and SDK/header dependencies. This project is community software and is not affiliated with Rockstar Games. The included GTA preview assets retain their original ownership; the project MIT license applies to project code.

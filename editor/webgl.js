@@ -123,6 +123,7 @@
       gl.useProgram(this.program);gl.uniform2f(this.canvasSize,640,baseHeight);
       if(!this.ready) return;
       for(const shape of plan.shapes) {
+        if(shape.native?.visible===false)continue;
         if(shape.kind==='rect') this.quad(shape.x,shape.y,shape.w,shape.h,shape.color);
         else if(shape.kind==='native_box') {
           // CFont::GetTextRect uses a four-pixel border and a line height of

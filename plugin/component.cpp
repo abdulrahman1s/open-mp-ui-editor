@@ -150,7 +150,7 @@ class UiComponent final : public IComponent, public PawnEventHandler, public Tex
 public:
     PROVIDE_UID(0x4F4D505549454431);
     StringView componentName() const override {return "open-mp-ui-editor";}
-    SemanticVersion componentVersion() const override {return SemanticVersion(0,1,0,0);}
+    SemanticVersion componentVersion() const override {return SemanticVersion(0,1,1,0);}
     void onLoad(ICore* c) override {core=c;
 #ifdef UI_TEST_DRIVER
         testComponent=this;
@@ -160,7 +160,7 @@ public:
         pawn=list->queryComponent<IPawnComponent>();textdraws=list->queryComponent<ITextDrawsComponent>();
         if(pawn) pawn->getEventDispatcher().addEventHandler(this);
         if(textdraws) textdraws->getEventDispatcher().addEventHandler(this,EventPriority_Highest);
-        core->printLn(pawn&&textdraws?"[open-mp-ui] 0.1.0 ready (Rust runtime, native textdraws)":"[open-mp-ui] ERROR: Pawn and TextDraws components are required");
+        core->printLn(pawn&&textdraws?"[open-mp-ui] 0.1.1 ready (Rust runtime, native textdraws)":"[open-mp-ui] ERROR: Pawn and TextDraws components are required");
     }
     void onAmxLoad(IPawnScript& s) override {owners[s.GetAMX()]=++nextOwner;s.Register(natives,int(std::size(natives)));}
     void onAmxUnload(IPawnScript& s) override {auto it=owners.find(s.GetAMX());if(it!=owners.end()){ui_owner_unload(it->second);owners.erase(it);}}

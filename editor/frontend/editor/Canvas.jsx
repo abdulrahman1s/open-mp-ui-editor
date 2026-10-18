@@ -94,11 +94,9 @@ export function Canvas({ background }) {
       try {
         const maxDimension = Math.min(
           8192,
-          globalThis.OPEN_MP_EDITOR
-            ? 8192
-            : renderer.current.gl.getParameter(
-                renderer.current.gl.MAX_RENDERBUFFER_SIZE,
-              ),
+          renderer.current.gl.getParameter(
+            renderer.current.gl.MAX_RENDERBUFFER_SIZE,
+          ),
         );
         const raster = rasterSize(
           displayWidth,

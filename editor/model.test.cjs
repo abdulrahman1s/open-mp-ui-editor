@@ -2,7 +2,7 @@ const {test} = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-require('./tests/fixtures/actions.js');require('./tests/fixtures/defaults.js');globalThis.GAME_FONTS={metrics:[Array(208).fill(16),Array(208).fill(16)]};globalThis.GAME_SPRITES={};require('./webgl.js');
+require('./tests/fixtures/actions.js');require('./tests/fixtures/defaults.js');require('./game-fonts.js');require('./sprites.js');require('./webgl.js');
 const M = require('./model.js');
 const fresh = () => M.clone(DEFAULT_UI);
 
